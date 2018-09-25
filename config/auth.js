@@ -9,8 +9,8 @@ module.exports = {
   },
 
   'googleAuth' : {
-    'clientID'      : '361998679532-l9u5gk921j1k3hksa9a2dkes3s2k7kkm.apps.googleusercontent.com',
-    'clientSecret'  : 'u6ZssCDWHsp0msllcWb5hybI',
+    'clientID'      : '361998679532-a0vb1mdk4u3enapionu72f5ngk5e1dcr.apps.googleusercontent.com',
+    'clientSecret'  : 'XgqdXYJ1u3UmmAcAQwBeCWce',
     'callbackURL'   : 'https://assignment3bysian.herokuapp.com/auth/google/callback'
   }
 }

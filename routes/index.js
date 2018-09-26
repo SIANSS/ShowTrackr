@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 const TVDB = require('node-tvdb');
 var http = require('http');
 var request = require('request');
@@ -12,16 +13,23 @@ module.exports = (app, passport) =>{
     res.render('index', { user : req.user});
   })
 
-  app.get('/add', isLoggedIn, (req, res)=>{
-    res.render('add', {user : req.user});
+  app.get('/desc/:id', (req, res)=>{
+    const tvdb = new TVDB('0YTLHQL6Q63URBKV');
+    tvdb.getSeriesById(req.params.id).then((response, body) => {
+      res.render('desc', {data : response, user : req.user});
+    }).catch(error => { throw error });
   });
+
+  // app.get('/desc', (req, res)=>{
+  //   res.render('desc', {data : req.response});
+  // });
 
   app.get('/login', (req, res)=>{
     res.render('login');
   });
 
   app.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/add', // redirect to the secure profile section
+    successRedirect : '/', // redirect to the secure profile section
     failureRedirect : '/login', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
   }));
@@ -31,13 +39,65 @@ module.exports = (app, passport) =>{
   });
 
   app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/add', // redirect to the secure profile section
+    successRedirect : '/', // redirect to the secure profile section
     failureRedirect : '/signup', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
   }));
 
   app.get('/desc', (req, res)=>{
     res.render('description');
+  });
+
+
+  app.put('/desc/subscribe/:id', (req, res)=>{
+    var name = req.body.name;
+    var firstAired = req.body.banner;
+    var network = req.body.network;
+    var overview = req.body.overview;
+    var status = req.body.status;
+    var subid = req.body.subid;
+
+    var newShow = new Show();
+    // console.log(newShow.tree);
+
+    Show.findOne({'name' : name}, (err, result)=>{
+      if(err) throw err;
+      if(!result){
+        newShow.name = name;
+        newShow.firstAired = firstAired;
+        newShow.id = req.params.id;
+        newShow.network = network;
+        newShow.overview = overview;
+        newShow.status = status;
+        newShow.subscriber = subid;
+
+        Show.createShow(newShow, function(err) {
+          if (err)
+          throw err;
+
+          // if successful, return the new user
+          console.log("Succeeded");
+        });
+      }
+      else{
+        Show.findOne({'subscriber' : subid}, (err, result)=>{
+          if(err) throw err;
+          if(!result){
+            Show.update(
+              { "name": req.body.name},
+              { "$push": { "subscriber": subid } },
+              function (err, raw) {
+                if (err) return console.log(err);
+                console.log('The raw response from Mongo was ', raw);
+              }
+            );
+          }
+          else {
+            console.log("Already subscribed")
+          }
+        })
+      }
+    })
   })
 
   app.get('/logout', function(req, res) {

@@ -272,7 +272,7 @@ var logins = [
 
         console.log(data);
         for (var i = 0; i < data.length; i++) {
-          document.getElementById('rootus').innerHTML += '<div class="imgframe S action horror adventure fantasy comedy show"> <!-- supernatural horror action comedy --><div class="img-holder"><a href="/getseries/'+data[i].id+'"><img src="'+data[i].banner+'" alt=""></a></div><div class="ititle"><p class="title">'+data[i].seriesName+'</p><p class="epsd"><b>Network :</b> '+data[i].network+'</p></div></div>'
+          document.getElementById('rootus').innerHTML += '<div class="imgframe S action horror adventure fantasy comedy show"> <!-- supernatural horror action comedy --><div class="img-holder"><img src="'+data[i].banner+'" alt=""></div><div class="ititle"><p class="title"><a href="'+baseUrl+'desc/'+data[i].id+'">'+data[i].seriesName+'</p></a><p class="epsd"><b>Network :</b> '+data[i].network+'</p></div></div>'
         }
       }
     }
@@ -280,3 +280,30 @@ var logins = [
     xhttp.open("GET", baseUrl+"search/"+dat, true);
     xhttp.send();
   }
+
+
+function subscribe(){
+  var name = document.getElementById('cryname').innerHTML;
+  var firstAired = document.getElementById('cryfa').innerHTML;
+  var network = document.getElementById('crynet').innerHTML;
+  var overview = document.getElementById('cryview').innerHTML;
+  var status = document.getElementById('crystatus').innerHTML;
+  var id = document.getElementById('cryid').innerHTML;
+  var subid = document.getElementById('suber').innerHTML;
+
+  var params = "name="+name+"&firstAired="+firstAired+"&network="+network+"&overview="+overview+"&status="+status+"&subid="+subid;
+
+  console.log(params);
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function (){
+    if(this.readyState == 4 && this.status == 200){
+
+    }
+  }
+
+
+  xhttp.open("PUT", baseUrl+"/subscribe/"+id, true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(params);
+}

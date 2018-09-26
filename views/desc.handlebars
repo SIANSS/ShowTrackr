@@ -1,0 +1,69 @@
+<div class="desccont">
+  <div class="desccont1">
+    <div class="image-box">
+      <img src="images/SN.jpg" alt="">
+    </div>
+    {{#if user}}
+      <p class="hidden" id="suber">{{user.local.email}}</p>
+      <button onclick="subscribe()" type="button" class="btn btn-primary ntb">Subscribe</button>
+    {{else}}
+      <a href="/login"><button type="button" class="btn btn-primary ntb">Login to Subscribe</button></a>
+    {{/if}}
+    <!-- <button class="xbtn2"></button> -->
+  </div>
+  <div class="desccont2">
+    <p id="cryid" class="hidden">{{data.id}}</p>
+    <h2 class="title"><b id="cryname">{{data.seriesName}}</b></h2>
+    <h2 id="cryfa" class="rate"> {{data.firstAired}}</h2>
+    <br>
+    <p class="sche"><span class="glyphicon glyphicon-calendar"></span><span id="crynet" style="text-transform:uppercase; font-family:'Anton', sans-serif;"> {{data.network}} </span></p>
+    <p id="cryview" class="descp">{{data.overview}}</p>
+    <p id="crystatus" class="hidden">{{data.status}}</p>
+  </div>
+</div>
+<div class="notify">
+  <p><b>Next Episode</b>  -- <span style="font-family:'Anton', sans-serif;"> To Be Announced</span></p>
+</div>
+<div class="description">
+  <div class="dehead">
+    <p> <img src="images/clap.png" alt=""> EPISODES</p>
+  </div>
+  <div class="debody">
+    <div class="eps">
+      <p class="peps"><span class="title">Pilot </span> <span class="xeps">Season 01 | Episode 01</span> </p>
+      <p class="xtime">13 Sep. 2005</p>
+      <p class="xdes">Sam and Dean Winchester were trained by their father to hunt the creatures of the supernatural.
+        Now, their father has mysteriously disappeared while hunting the demon that killed their mother, 22 years ago.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Wendigo </span> <span class="xeps"> Season 01 | Episode 02</span> </p>
+      <p class="xtime">20 Sep. 2005</p>
+      <p class="xdes">Sam and Dean make a stop at Blackwater Ridge and end up helping a young woman and her brother find their other brother, who mysteriously disappeared, while on a camping trip, in the woods.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Dead in the water </span> <span class="xeps"> Season 01 | Episode 03</span> </p>
+      <p class="xtime">27 Sep. 2005</p>
+      <p class="xdes">Something, in the lake of a small town, is killing innocent people.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Phantom Traveler </span> <span class="xeps"> Season 01 | Episode 04</span> </p>
+      <p class="xtime">4 Oct. 2005</p>
+      <p class="xdes">A friend of John's calls Sam and Dean for help about a strange recording on the black box of a crashed plane. They soon realize that the demon which caused the crash is picking off the crash's only seven survivors.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Bloody Mary </span> <span class="xeps"> Season 01 | Episode 05</span> </p>
+      <p class="xtime">11 Oct. 2005</p>
+      <p class="xdes">A game of Bloody Mary unleashes a ghost who lives in mirrors and kills by gouging out the eyes of her prey, Sam and Dean must find a way to stop her before she claims another victim.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Skin </span> <span class="xeps"> Season 01 | Episode 06</span> </p>
+      <p class="xtime">18 Oct. 2005</p>
+      <p class="xdes">A serial killer shape-shifter adopts the likeness of Sam's college buddy to commit a gruesome murder. When the brothers investigate, the being "borrows" Dean's form to continue the killing spree.</p>
+    </div>
+    <div class="eps">
+      <p class="peps"><span class="title">Hook Man </span> <span class="xeps"> Season 01 | Episode 07</span> </p>
+      <p class="xtime">25 Oct. 2005</p>
+      <p class="xdes">Sam and Dean investigate an age-old urban legend known only as the Hook-Man, the spirit of a 19th century pastor with a twisted sense of morals that is unknowingly being used as an innocent girl's attack dog.</p>
+    </div>
+  </div>
+</div>

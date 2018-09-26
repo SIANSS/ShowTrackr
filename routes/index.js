@@ -20,9 +20,14 @@ module.exports = (app, passport) =>{
     }).catch(error => { throw error });
   });
 
-  // app.get('/desc', (req, res)=>{
-  //   res.render('desc', {data : req.response});
-  // });
+  app.get('/desc/checksubscribe/:id', (req, res)=>{
+    var data = req.params.id;
+    console.log('hello'+data);
+    Show.findOne({'id' : req.params.id}, (err, result)=>{
+      console.log(result);
+      res.send(result);
+    })
+  })
 
   app.get('/login', (req, res)=>{
     res.render('login');
@@ -44,9 +49,9 @@ module.exports = (app, passport) =>{
     failureFlash : true // allow flash messages
   }));
 
-  app.get('/desc', (req, res)=>{
-    res.render('description');
-  });
+  // app.get('/desc', (req, res)=>{
+  //   res.render('description');
+  // });
 
 
   app.put('/desc/subscribe/:id', (req, res)=>{
@@ -88,7 +93,8 @@ module.exports = (app, passport) =>{
               { "$push": { "subscriber": subid } },
               function (err, raw) {
                 if (err) return console.log(err);
-                console.log('The raw response from Mongo was ', raw);
+                status = true;
+                res.send(status);
               }
             );
           }

@@ -5,7 +5,8 @@
     </div>
     {{#if user}}
       <p class="hidden" id="suber">{{user.local.email}}</p>
-      <button onclick="subscribe()" type="button" class="btn btn-primary ntb">Subscribe</button>
+      <button id="subbedbut" type="button" class="btn btn-success ntb hidden">Subscribed</button>
+      <button id="subsbut" onclick="subscribe()" type="button" class="btn btn-primary ntb hidden">Subscribe</button>
     {{else}}
       <a href="/login"><button type="button" class="btn btn-primary ntb">Login to Subscribe</button></a>
     {{/if}}

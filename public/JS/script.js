@@ -259,6 +259,11 @@ var logins = [
     }
   }
 
+  function filt(y){
+    var x = y.value;
+    search(x);
+  }
+
 
   function search(x){
     document.getElementById('rootus').innerHTML = "";
@@ -298,7 +303,9 @@ function subscribe(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function (){
     if(this.readyState == 4 && this.status == 200){
+      var data = JSON.parse(this.responseText);
 
+      console.log(data);
     }
   }
 
@@ -306,4 +313,39 @@ function subscribe(){
   xhttp.open("PUT", baseUrl+"/subscribe/"+id, true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(params);
+}
+
+if(getUrl.pathname == "/desc/"+document.getElementById('cryid').innerHTML && document.getElementById('suber').innerHTML !== null || undefined){
+  console.log("hello world");
+  checksubscribe();
+}
+
+
+function checksubscribe(){
+  var sid = document.getElementById('suber').innerHTML;
+  var id = document.getElementById('cryid').innerHTML;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function (){
+    if(this.readyState == 4 && this.status == 200){
+      // console.log(this.responseText);
+      var data = JSON.parse(this.responseText);
+      for (var i = 0; i < data.subscriber[i].length; i++) {
+        if(data.subscriber[i] == sid ){
+          console.log("found");
+          document.getElementById('subbedbut').classList.remove("hidden");
+          break;
+        }
+        else{
+          document.getElementById('subsbut').classList.remove("hidden");
+          console.log("Not found");
+        }
+      }
+      // console.log(data.subscriber);
+  }
+}
+
+
+  xhttp.open("GET", baseUrl+"/checksubscribe/"+id, true);
+  xhttp.send();
 }

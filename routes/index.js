@@ -1,3 +1,9 @@
+const TVDB = require('node-tvdb');
+var http = require('http');
+var request = require('request');
+var Show = require('../models/show');
+var xml2js = require('xml2js');
+
 var Show = require('../models/show');
 module.exports = (app, passport) =>{
 
@@ -156,6 +162,27 @@ module.exports = (app, passport) =>{
     user.save(function(err) {
       res.redirect('/profile');
     });
+  });
+
+
+  app.get('/search/:id', function(req, res){
+    var parser = xml2js.Parser({
+      explicitArray: false,
+      normalizeTags: true
+    });
+    const tvdb = new TVDB('0YTLHQL6Q63URBKV');
+    tvdb.getSeriesByName(req.params.id).then((response, body) => {
+
+      // for (var i = 0; i < response.length; i++) {
+      //   var newShow = new Show();
+      //
+      //   newShow._id = response[i].id;
+      //   newShow.name = response[i].seriesName;
+      //   newShow.firstAired = response[i].
+      // }
+
+      res.send(response)
+    }).catch(error => { throw error });
   });
 
 

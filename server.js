@@ -4,7 +4,7 @@ var path = require('path');
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var exphbs = require('express-handlebars');
-
+const TVDB = require('node-tvdb');
 var expressvalidator = require('express-validator');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -12,6 +12,8 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var xml2js = require('xml2js');
+
 
 var configDB = require('./config/database.js');
 var routes = require('./routes/index');

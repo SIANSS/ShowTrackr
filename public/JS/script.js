@@ -338,7 +338,7 @@ function checksubscribe(){
           break;
         }
         else{
-          // document.getElementById('subsbut').classList.remove("hidden");
+          document.getElementById('subsbut').classList.remove("hidden");
           console.log("Not found");
         }
       }

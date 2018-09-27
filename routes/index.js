@@ -16,6 +16,24 @@ module.exports = (app, passport) =>{
   app.get('/desc/:id', (req, res)=>{
     const tvdb = new TVDB('0YTLHQL6Q63URBKV');
     tvdb.getSeriesById(req.params.id).then((response, body) => {
+      var newShow = new Show();
+
+      newShow.name = name;
+      newShow.firstAired = firstAired;
+      newShow.id = req.params.id;
+      newShow.network = network;
+      newShow.overview = overview;
+      newShow.status = status;
+      newShow.subscriber = subid;
+
+      Show.createShow(newShow, function(err) {
+        if (err)
+        throw err;
+
+        // if successful, return the new user
+        console.log("Succeeded");
+      });
+      
       res.render('desc', {data : response, user : req.user});
     }).catch(error => { throw error });
   });

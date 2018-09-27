@@ -304,8 +304,9 @@ function subscribe(){
   xhttp.onreadystatechange = function (){
     if(this.readyState == 4 && this.status == 200){
       var data = JSON.parse(this.responseText);
-
       console.log(data);
+      document.getElementById('subbedbut').classList.remove("hidden");
+      document.getElementById('subsbut').classList.add("hidden");
     }
   }
 

@@ -3,7 +3,6 @@
   <div class="modal-content animate">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <img src="img_avatar2.png" alt="Avatar" class="avatar">
     </div>
 
     <div class="xcontainer">
@@ -33,7 +32,8 @@
       <button id="subbedbut" type="button" class="btn btn-success ntb hidden">Subscribed</button>
       <button id="subsbut" onclick="subscribe()" type="button" class="btn btn-primary ntb hidden">Subscribe</button>
     {{else}}
-    <button onclick="document.getElementById('id01').style.display='block'" class="btn btn-primary ntb">Login to subcribe</button>
+    <button id="zub" onclick="document.getElementById('id01').style.display='block'" class="btn btn-primary ntb">Login to subcribe</button>
+    <button id="subbedbut" type="button" class="btn btn-success ntb hidden">Subscribed</button>
       <!-- <a href="/login"><button type="button" class="btn btn-primary ntb">Login to Subscribe</button></a> -->
     {{/if}}
     <!-- <button class="xbtn2"></button> -->

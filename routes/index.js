@@ -37,7 +37,7 @@ module.exports = (app, passport) =>{
     }).catch(error => { throw error });
   });
 
-  app.put('/sublog', (req, res)=>{
+  app.put('/desc/sublog', (req, res)=>{
     var mail = req.body.mail;
     var password = req.body.password;
     var showid = req.body.sid;
@@ -46,9 +46,11 @@ module.exports = (app, passport) =>{
       if(err) throw err;
       if(!user) {
         var mailstatus = false;
+        console.log("No such use found");
         res.send(mailstatus);
       }
       if (!user.validPassword(password)){
+        console.log("No such password found");
         var mailstatus = true;
         var passwordstatus = false;
         var data = mailstatus + passwordstatus;
@@ -74,7 +76,7 @@ module.exports = (app, passport) =>{
                 if (err)
                 throw err;
 
-                console.log("Succeeded");
+                console.log("Succeeded in adding");
               });
 
               // res.send();
@@ -82,23 +84,30 @@ module.exports = (app, passport) =>{
               // res.render('desc', {data : response, user : req.user});
             }).catch(error => { throw error });
           }else{
-            result.findOne({'subscriber' : subid}, (err, result)=>{
-              if(err) throw err;
-              if(!result){
-                Show.update(
-                  { "name": req.body.name },
-                  { "$push": { "subscriber": subid } },
-                  function (err, raw) {
-                    if (err) return console.log(err);
-                    status = true;
-                    res.send(status);
-                  }
-                );
-              }
-              else {
-                console.log("Already subscribed")
-              }
-            })
+            var status = false;
+            console.log(result.subscriber);
+            res.send({status : result.subscriber.includes(mail), user : mail});
+
+
+
+            // result.findOne({'subscriber' : showid}, (err, results)=>{
+            //   if(err) throw err;
+            //   if(!result){
+            //     Show.update(
+            //       { "name": req.body.name },
+            //       { "$push": { "subscriber": subid } },
+            //       function (err, raw) {
+            //         if (err) return console.log(err);
+            //         console.log("No such use found");
+            //         status = true;
+            //         res.send(status);
+            //       }
+            //     );
+            //   }
+            //   else {
+            //     console.log("Already subscribed")
+            //   }
+            // })
           }
         })
       }

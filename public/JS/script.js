@@ -277,7 +277,7 @@ var logins = [
 
         console.log(data);
         for (var i = 0; i < data.length; i++) {
-          document.getElementById('rootus').innerHTML += '<div class="imgframe S action horror adventure fantasy comedy show"> <!-- supernatural horror action comedy --><div class="img-holder"><img src="'+data[i].banner+'" alt=""></div><div class="ititle"><p class="title"><a href="'+baseUrl+'desc/'+data[i].id+'">'+data[i].seriesName+'</p></a><p class="epsd"><b>Network :</b> '+data[i].network+'</p></div></div>'
+          document.getElementById('rootus').innerHTML += '<div class="imgframe S action horror adventure fantasy comedy show"> <!-- supernatural horror action comedy --><div class="img-holder"><img style="width:100%" src="https://www.thetvdb.com/banners/'+data[i].banner+'" alt=""></div><div class="ititle"><p class="title"><a href="'+baseUrl+'desc/'+data[i].id+'">'+data[i].seriesName+'</p></a><p class="epsd"><b>Network :</b> '+data[i].network+'</p></div></div>'
         }
       }
     }
@@ -296,14 +296,23 @@ function subscribelog(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function (){
     if(this.readyState == 4 && this.status == 200){
-      // var data = JSON.parse(this.responseText);
-      // console.log(data);
+      var data = JSON.parse(this.responseText);
+      console.log(data);
 
+      if(data.status == true){
+        document.getElementById('id01').style.display='none'
+        document.getElementById('subbedbut').classList.remove("hidden");
+        document.getElementById('zub').classList.add("hidden");
+
+      }else{
+        // document.getElementById('subsbut').classList.remove("hidden");
+      }
+      // console.log("Mocked");
     }
   }
 
 
-  xhttp.open("PUT", baseUrl + 'sublog', true);
+  xhttp.open("PUT", baseUrl + '/sublog', true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(params);
 }

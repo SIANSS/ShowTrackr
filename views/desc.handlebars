@@ -1,3 +1,28 @@
+<div id="id01" class="modal">
+
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="xcontainer">
+      <label for="uname"><b>Username</b></label>
+      <input id="subloguname" type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input id="sublogpassword" type="password" placeholder="Enter Password" name="psw" required>
+
+      <button onclick="subscribelog()">subcribe</button>
+      <br><br>
+      <p id="failmessage" class="hidden">Invalid login credentials</p>
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+    <br>
+      <br>
+    </div>
+  </div>
+</div>
+
 <div class="desccont">
   <div class="desccont1">
     <div class="image-box">
@@ -8,7 +33,8 @@
       <button id="subbedbut" type="button" class="btn btn-success ntb hidden">Subscribed</button>
       <button id="subsbut" onclick="subscribe()" type="button" class="btn btn-primary ntb hidden">Subscribe</button>
     {{else}}
-      <a href="/login"><button type="button" class="btn btn-primary ntb">Login to Subscribe</button></a>
+    <button onclick="document.getElementById('id01').style.display='block'" class="btn btn-primary ntb">Login to subcribe</button>
+      <!-- <a href="/login"><button type="button" class="btn btn-primary ntb">Login to Subscribe</button></a> -->
     {{/if}}
     <!-- <button class="xbtn2"></button> -->
   </div>

@@ -286,6 +286,30 @@ var logins = [
     xhttp.send();
   }
 
+function subscribelog(){
+  var mail = document.getElementById('subloguname').value;
+  var password = document.getElementById('sublogpassword').value;
+  var seriesid = document.getElementById('cryid').innerHTML;
+
+  var params = "mail="+mail+"&password="+password+"&sid="+seriesid;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function (){
+    if(this.readyState == 4 && this.status == 200){
+      // var data = JSON.parse(this.responseText);
+      // console.log(data);
+
+    }
+  }
+
+
+  xhttp.open("PUT", baseUrl + 'sublog', true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(params);
+}
+
+
+
 
 function subscribe(){
   var name = document.getElementById('cryname').innerHTML;

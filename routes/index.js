@@ -6,6 +6,7 @@ var Show = require('../models/show');
 var xml2js = require('xml2js');
 
 var Show = require('../models/show');
+var User = require('../models/user');
 module.exports = (app, passport) =>{
 
 
@@ -18,25 +19,93 @@ module.exports = (app, passport) =>{
     tvdb.getSeriesById(req.params.id).then((response, body) => {
       var newShow = new Show();
 
-      newShow.name = name;
-      newShow.firstAired = firstAired;
+      newShow.name = response.name;
+      newShow.firstAired = response.firstAired;
       newShow.id = req.params.id;
-      newShow.network = network;
-      newShow.overview = overview;
-      newShow.status = status;
-      newShow.subscriber = subid;
+      newShow.network = response.network;
+      newShow.overview = response.overview;
+      newShow.status = response.status;
 
       Show.createShow(newShow, function(err) {
         if (err)
         throw err;
 
-        // if successful, return the new user
         console.log("Succeeded");
       });
-      
+
       res.render('desc', {data : response, user : req.user});
     }).catch(error => { throw error });
   });
+
+  app.put('/sublog', (req, res)=>{
+    var mail = req.body.mail;
+    var password = req.body.password;
+    var showid = req.body.sid;
+
+    User.findOne({ 'local.email' :  mail }, function(err, user) {
+      if(err) throw err;
+      if(!user) {
+        var mailstatus = false;
+        res.send(mailstatus);
+      }
+      if (!user.validPassword(password)){
+        var mailstatus = true;
+        var passwordstatus = false;
+        var data = mailstatus + passwordstatus;
+        res.send(data);
+      }
+      else {
+        Show.findOne({'id' : showid}, (err, result)=>{
+          if(err) throw err;
+          if(!result){
+            const tvdb = new TVDB('0YTLHQL6Q63URBKV');
+            tvdb.getSeriesById(showid).then((response, body) => {
+              var newShow = new Show();
+
+              newShow.name = response.name;
+              newShow.firstAired = response.firstAired;
+              newShow.id = req.params.id;
+              newShow.network = response.network;
+              newShow.overview = response.overview;
+              newShow.status = response.status;
+              newShow.subscriber = mail;
+
+              Show.createShow(newShow, function(err) {
+                if (err)
+                throw err;
+
+                console.log("Succeeded");
+              });
+
+              // res.send();
+
+              // res.render('desc', {data : response, user : req.user});
+            }).catch(error => { throw error });
+          }else{
+            result.findOne({'subscriber' : subid}, (err, result)=>{
+              if(err) throw err;
+              if(!result){
+                Show.update(
+                  { "name": req.body.name },
+                  { "$push": { "subscriber": subid } },
+                  function (err, raw) {
+                    if (err) return console.log(err);
+                    status = true;
+                    res.send(status);
+                  }
+                );
+              }
+              else {
+                console.log("Already subscribed")
+              }
+            })
+          }
+        })
+      }
+    });
+
+
+  })
 
   app.get('/desc/checksubscribe/:id', (req, res)=>{
     var data = req.params.id;

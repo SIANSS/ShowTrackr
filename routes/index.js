@@ -16,25 +16,35 @@ module.exports = (app, passport) =>{
 
   app.get('/desc/:id', (req, res)=>{
     const tvdb = new TVDB('0YTLHQL6Q63URBKV');
-    tvdb.getSeriesById(req.params.id).then((response, body) => {
-      var newShow = new Show();
+    Show.findOne({'id': req.params.id}, (err, show)=>{
+      if(err) throw err;
+      if(!show){
+        tvdb.getSeriesById(req.params.id).then((response, body) => {
+          var newShow = new Show();
 
-      newShow.name = response.name;
-      newShow.firstAired = response.firstAired;
-      newShow.id = req.params.id;
-      newShow.network = response.network;
-      newShow.overview = response.overview;
-      newShow.status = response.status;
+          newShow.seriesName = response.seriesName;
+          newShow.firstAired = response.firstAired;
+          newShow.id = req.params.id;
+          newShow.network = response.network;
+          newShow.overview = response.overview;
+          newShow.status = response.status;
+          newShow.subscriber = "";
 
-      Show.createShow(newShow, function(err) {
-        if (err)
-        throw err;
+          Show.createShow(newShow, function(err, result) {
+            if (err)
+            throw err;
 
-        console.log("Succeeded");
-      });
+            console.log("Succeeded");
+            res.render('desc', {data : result, user : req.user});
+          });
 
-      res.render('desc', {data : response, user : req.user});
-    }).catch(error => { throw error });
+        }).catch(error => { throw error });
+
+      }
+      else{
+        res.render('desc', {data : show, user : req.user});
+      }
+    })
   });
 
   app.put('/desc/sublog', (req, res)=>{
@@ -46,31 +56,32 @@ module.exports = (app, passport) =>{
       if(err) throw err;
       if(!user) {
         var mailstatus = false;
-        console.log("No such use found");
-        res.send(mailstatus);
+        console.log("No such user found");
+        // res.send(mailstatus);
       }
       if (!user.validPassword(password)){
-        console.log("No such password found");
-        var mailstatus = true;
+        console.log("wrong");
+        // var mailstatus = true;
         var passwordstatus = false;
-        var data = mailstatus + passwordstatus;
+        var data =passwordstatus;
         res.send(data);
       }
       else {
-        Show.findOne({'id' : showid}, (err, result)=>{
+        Show.findOne({'id' : showid}, (err, reesult)=>{
           if(err) throw err;
-          if(!result){
+          if(!reesult){
             const tvdb = new TVDB('0YTLHQL6Q63URBKV');
             tvdb.getSeriesById(showid).then((response, body) => {
               var newShow = new Show();
 
-              newShow.name = response.name;
+              newShow.seriesName = response.seriesName;
               newShow.firstAired = response.firstAired;
               newShow.id = req.params.id;
               newShow.network = response.network;
               newShow.overview = response.overview;
               newShow.status = response.status;
               newShow.subscriber = mail;
+              console.log("came this far");
 
               Show.createShow(newShow, function(err) {
                 if (err)
@@ -84,30 +95,37 @@ module.exports = (app, passport) =>{
               // res.render('desc', {data : response, user : req.user});
             }).catch(error => { throw error });
           }else{
-            var status = false;
-            console.log(result.subscriber);
-            res.send({status : result.subscriber.includes(mail), user : mail});
+            var status = true;
+            console.log("gotcha");
+            console.log(reesult.subscriber);
+            // res.send({status : reesult.subscriber.includes(mail), user : mail});
 
+            if(reesult.subscriber.includes(mail) == false){
+              Show.update(
+                { "id": showid },
+                { "$push": { "subscriber": mail } },
+                function (err, raw) {
+                  if (err) return console.log(err);
+                  console.log("No such use found");
+                  status = true;
+                  res.send(status);
+                }
+              );
+            }else {
 
+              res.send(status)
+            }
 
             // result.findOne({'subscriber' : showid}, (err, results)=>{
             //   if(err) throw err;
             //   if(!result){
-            //     Show.update(
-            //       { "name": req.body.name },
-            //       { "$push": { "subscriber": subid } },
-            //       function (err, raw) {
-            //         if (err) return console.log(err);
-            //         console.log("No such use found");
-            //         status = true;
-            //         res.send(status);
-            //       }
-            //     );
+            //
             //   }
             //   else {
             //     console.log("Already subscribed")
             //   }
             // })
+
           }
         })
       }
@@ -123,7 +141,7 @@ module.exports = (app, passport) =>{
       console.log(result);
       res.send(result);
     })
-  })
+  });
 
   app.get('/login', (req, res)=>{
     res.render('login');
@@ -161,10 +179,10 @@ module.exports = (app, passport) =>{
     var newShow = new Show();
     // console.log(newShow.tree);
 
-    Show.findOne({'name' : name}, (err, result)=>{
+    Show.findOne({'id' : req.params.id}, (err, result)=>{
       if(err) throw err;
       if(!result){
-        newShow.name = name;
+        newShow.seriesName = name;
         newShow.firstAired = firstAired;
         newShow.id = req.params.id;
         newShow.network = network;
@@ -179,13 +197,12 @@ module.exports = (app, passport) =>{
           // if successful, return the new user
           console.log("Succeeded");
         });
-      }
-      else{
-        Show.findOne({'subscriber' : subid}, (err, result)=>{
+      }else{
+        Show.findOne({'id' : req.params.id, 'subscriber' : subid }, (err, result)=>{
           if(err) throw err;
           if(!result){
             Show.update(
-              { "name": req.body.name},
+              { "id": req.params.id},
               { "$push": { "subscriber": subid } },
               function (err, raw) {
                 if (err) return console.log(err);

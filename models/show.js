@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 
 var showSchema = mongoose.Schema({
-  name: String,
+  seriesName: String,
   firstAired: String,
   id: Number,
   network: String,

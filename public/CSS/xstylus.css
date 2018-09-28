@@ -16,6 +16,23 @@
 .show{
   display: block;
 }
+.trendsetter{
+  padding: 2%;
+}
+
+.rootus{
+  margin-top: 2%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.blacksat{
+  display: block;
+  width: 99%;
+  background-color: black;
+  margin-left: auto;
+  margin-right: auto;
+}
 .xbtn{
 
   padding: 4px 10px;
@@ -210,6 +227,12 @@ body > .desccont > .desccont2 > .title{
   font-size: 36px;
   font-weight: bolder;
 }
+.title{
+  float: left;
+  display: inline;
+  font-size: 36px;
+  font-weight: bolder;
+}
 body > .desccont > .desccont2 > .rate{
   display: inline-block
   font-weight: bolder;
@@ -291,8 +314,9 @@ body > .indexcontainer > .ihead > .xsearch{
   margin-bottom: auto;
 }
 body > .indexcontainer > .ibody{
-  padding-top: 15px;
-  padding-left: 35px;
+  margin-top: 2%;
+  /* padding-top: 15px; */
+  /* padding-left: 35px; */
   padding-right: auto;
 }
 body > .indexcontainer > .ibody > .imgframe{
